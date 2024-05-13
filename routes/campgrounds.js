@@ -13,7 +13,7 @@ const {storage}=require('../cloudinary');
 const upload = multer({storage});
 
 router.route('/')
-          .get(catchAsync(campgrounds.index))
+          .get(catchAsync(campgrounds.index))// this line executes index in controllers/campgrounds.js
           .post(isLoggedIn,upload.array('image'), validateCampground,catchAsync(campgrounds.createCampground));
         
 
