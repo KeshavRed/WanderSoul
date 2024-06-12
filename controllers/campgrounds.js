@@ -6,7 +6,7 @@ const { cloudinary } = require("../cloudinary");
 
 module.exports.index=async(req,res)=>{
 
-    const campgrounds = await Campground.find({}).populate({ path: 'popupText', options: { strictPopulate: false  } });//populate is used when we have dependent databases 
+    const campgrounds = await Campground.find({}).populate({ path: 'popupText', options: { strictPopulate: false  } });
     res.render('campgrounds/index',{campgrounds});
 }
 
@@ -19,9 +19,10 @@ module.exports.createCampground=async (req, res, next) => {
   const geoData= await geocoder.forwardGeocode(
     {
             query: req.body.campground.location,
+            // query:'Yosmemite , CA',
             limit: 1
         }
-   ).send()//The send() method is used to send the request to the geocoding service and retrieve the response. 
+   ).send()
    
    
     const campground = new Campground(req.body.campground);
