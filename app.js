@@ -25,8 +25,12 @@ const session=require('express-session');
 const Userroutes=require('./routes/users');
 const campground=require('./routes/campgrounds');
 const review=require('./routes/reviews');
+const dbUrl='mongodb://localhost:27017/yelp-camp';
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp',{
+const MongoStore= require("connect-mongo")(session);
+
+// 'mongodb://localhost:27017/yelp-camp'
+mongoose.connect(dbUrl,{
     useNewUrlParser:true,
     // // useCreateIndex:true,
     useUnifiedTopology:true,
@@ -54,9 +58,17 @@ app.get('/' , (req,res)=>{
     res.render('home', { currentUser: req.user });
 
 })
-
+const store=new MongoStore({
+    url:dbUrl,
+    secret:'thisisagoodsecret',
+    touchAfter: 24 * 60 * 60
+});
+store.on("error",function(e){
+    console.log("session store error",e);
+});
 
 const sessionConfig={
+    store,
     secret : 'thisisagoodsecret',
     resave: false,
     saveUninitialized: true,
