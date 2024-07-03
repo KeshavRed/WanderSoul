@@ -25,7 +25,7 @@ const session=require('express-session');
 const Userroutes=require('./routes/users');
 const campground=require('./routes/campgrounds');
 const review=require('./routes/reviews');
-const dbUrl='mongodb://localhost:27017/yelp-camp';
+const dbUrl=process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
 const MongoStore= require("connect-mongo")(session);
 
